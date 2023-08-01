@@ -1,4 +1,4 @@
 import { defineCustomElement } from '@/defineCustomElementWithStyles';
-import App from './App.vue';
+import WeatherWidget from '@/WeatherWidget.vue';
 
-customElements.define('weather-app', defineCustomElement(App));
+customElements.define('weather-widget', defineCustomElement(WeatherWidget));

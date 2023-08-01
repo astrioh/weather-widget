@@ -4,7 +4,7 @@ const paths = require('./paths');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-
+const Dotenv = require('dotenv-webpack');
 const { VueLoaderPlugin } = require('vue-loader');
 
 module.exports = {
@@ -42,7 +42,8 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       template: './public/index.html'
-    })
+    }),
+    new Dotenv()
   ],
 
   module: {
