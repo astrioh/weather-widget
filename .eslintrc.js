@@ -7,8 +7,8 @@ module.exports = {
   },
   extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'plugin:vue/vue3-recommended'],
   parser: '@typescript-eslint/parser',
-  files: ['**/*.ts', '**/*.tsx'],
-  plugins: ['react-refresh', 'import'],
+  files: ['**/*.ts'],
+  plugins: ['import'],
   settings: {
     react: { version: 'detect' },
     'import/parsers': {
@@ -20,8 +20,6 @@ module.exports = {
   },
   parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
   rules: {
-    'react-refresh/only-export-components': 'warn',
-    'prettier/prettier': ['error', {}, { usePrettierrc: true }],
-    'react/react-in-jsx-scope': 'off'
+    'prettier/prettier': ['error', {}, { usePrettierrc: true }]
   }
 };

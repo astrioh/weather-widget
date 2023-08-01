@@ -25,6 +25,7 @@
     "cross-env": "^7.0.3",
     "css-loader": "^6.8.1",
     "css-minimizer-webpack-plugin": "^5.0.1",
+    "dotenv-webpack": "^8.0.1",
     "eslint": "^8.45.0",
     "eslint-plugin-vue": "^9.15.1",
     "eslint-webpack-plugin": "^4.0.1",
@@ -49,6 +50,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.22.6",
+    "axios": "^1.4.0",
     "core-js": "^3.31.1",
     "fetch": "^1.1.0",
     "vue": "^3.3.4",
