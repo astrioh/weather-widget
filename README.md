@@ -1,5 +1,5 @@
 # Weather Widget
-Weather widget as web component. Written in vue 3.
+Weather widget as web component. Written in vue 3.  
 Demo can be found in /example folder
 ## Usage
 To use this you can build it yourself:  
