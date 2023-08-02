@@ -10,7 +10,7 @@ export function toSentenceCase(text: string) {
 
 export function debounce(fn: () => void, delay: number) {
   let timer;
-  return function (...args) {
+  return function (...args: unknown[]) {
     if (timer) {
       clearTimeout(timer);
     }
