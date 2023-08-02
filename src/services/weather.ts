@@ -51,4 +51,19 @@ export async function getWeatherForMultipleCities(ids: number[]): Promise<CityWe
   return res.data.list.map((city: any) => mapWeatherResponseToCityWeather(city));
 }
 
-// export function searchCityByName(name: string): SearchedCity[] {}
+export async function searchCityByName(name: string): Promise<SearchedCity[]> {
+  const res = await weatherApi('/geo/1.0/direct', {
+    params: {
+      q: name,
+      limit: 5,
+      appid: CONFIG.WEATHER_API_KEY
+    }
+  });
+
+  return res.data.map((city) => ({
+    name: city.name,
+    country: city.country,
+    lat: city.lat,
+    lon: city.lon
+  }));
+}

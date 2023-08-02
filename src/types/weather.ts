@@ -17,6 +17,7 @@ export type CityWeather = {
 
 export type SearchedCity = {
   name: string;
+  country: string;
   lat: string;
   lon: string;
 };

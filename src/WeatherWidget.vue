@@ -1,22 +1,36 @@
 <template>
   <div id="weather-widget">
-    <WeatherScreen v-show="currentScreen === 'weather'" :cities="cities" :loading="isLoading" @open-settings="changeScreen('settings')" />
+    <WeatherScreen
+      v-show="currentScreen === 'weather'"
+      :cities="cities"
+      :loading="isLoading"
+      @open-settings="changeScreen('settings')"
+    />
+    <SettingsScreen
+      v-show="currentScreen === 'settings'"
+      :cities="cities"
+      :loading="isLoading"
+      @close-settings="changeScreen('weather')"
+      @add-city="pushCity"
+      @remove-city="removeCity"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
-import { getCurrentLocation } from '@/services/location';
-import { CityWeather } from '@/types/weather';
-import { addCity, setHasRequestedCurrentLocation, getHasRequestedCurrentLocation, getCities } from '@/services/storage';
-import { getWeatherByCoords, getWeatherForMultipleCities } from '@/services/weather';
-import WeatherScreen from '@/components/WeatherScreen.vue';
+import { onMounted, ref } from "vue";
+import { getCurrentLocation } from "@/services/location";
+import { CityWeather } from "@/types/weather";
+import * as storageApi from "@/services/storage";
+import { getWeatherByCoords, getWeatherForMultipleCities } from "@/services/weather";
+import WeatherScreen from "@/components/WeatherScreen.vue";
+import SettingsScreen from "./components/SettingsScreen.vue";
 
 const cities = ref<CityWeather[]>([]);
 const isLoading = ref(false);
 
 const getWeatherForSavedCities = async (): Promise<CityWeather[]> => {
-  const citiesState = getCities();
+  const citiesState = storageApi.getCities();
 
   if (!citiesState.length) {
     return [];
@@ -27,20 +41,23 @@ const getWeatherForSavedCities = async (): Promise<CityWeather[]> => {
 };
 
 onMounted(async () => {
-  const hasRequestedCurrentLocation = getHasRequestedCurrentLocation();
+  const hasRequestedCurrentLocation = storageApi.getHasRequestedCurrentLocation();
 
   if (!hasRequestedCurrentLocation) {
     getCurrentLocation(
       async (params) => {
         isLoading.value = true;
-        const city = await getWeatherByCoords({ lat: params.coords.latitude.toString(), lon: params.coords.longitude.toString() });
+        const city = await getWeatherByCoords({
+          lat: params.coords.latitude.toString(),
+          lon: params.coords.longitude.toString(),
+        });
         isLoading.value = false;
         cities.value.push(city);
-        addCity(city);
-        setHasRequestedCurrentLocation({ value: true });
+        storageApi.addCity(city);
+        storageApi.setHasRequestedCurrentLocation({ value: true });
       },
       () => {
-        setHasRequestedCurrentLocation({ value: true });
+        storageApi.setHasRequestedCurrentLocation({ value: true });
       }
     );
   }
@@ -51,11 +68,21 @@ onMounted(async () => {
   cities.value.push(...savedCitiesWeather);
 });
 
-type AppScreens = 'weather' | 'settings';
-const currentScreen = ref<AppScreens>('weather');
+type AppScreens = "weather" | "settings";
+const currentScreen = ref<AppScreens>("weather");
 
 const changeScreen = (screen: AppScreens) => {
   currentScreen.value = screen;
+};
+
+const pushCity = (city: CityWeather) => {
+  cities.value.push(city);
+  storageApi.addCity(city);
+};
+
+const removeCity = (cityId: number) => {
+  cities.value = cities.value.filter((city) => city.id !== cityId);
+  storageApi.removeCity(cityId);
 };
 </script>
 
@@ -66,6 +93,9 @@ const changeScreen = (screen: AppScreens) => {
 
   padding: 0.7rem;
 
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-sizing: border-box;
+  overflow: auto;
+
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 </style>

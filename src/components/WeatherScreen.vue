@@ -11,10 +11,10 @@
 </template>
 
 <script setup lang="ts">
-import { CityWeather } from '@/types/weather';
-import OptionIcon from '@/components/icons/OptionIcon.vue';
-import VSpinner from '@/components/elements/VSpinner.vue';
-import WeatherItem from '@/components/WeatherItem.vue';
+import { CityWeather } from "@/types/weather";
+import OptionIcon from "@/components/icons/OptionIcon.vue";
+import VSpinner from "@/components/elements/VSpinner.vue";
+import WeatherItem from "@/components/WeatherItem.vue";
 
 withDefaults(
   defineProps<{
@@ -22,12 +22,12 @@ withDefaults(
     loading?: boolean;
   }>(),
   {
-    loading: false
+    loading: false,
   }
 );
 
 const emit = defineEmits<{
-  (event: 'open-settings'): void;
+  (event: "open-settings"): void;
 }>();
 </script>
 
@@ -36,12 +36,18 @@ const emit = defineEmits<{
   position: relative;
 }
 
+.weather-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
 .option-icon {
   position: absolute;
-  right: 1rem;
-  top: 0.5rem;
+  top: 0;
+  right: 0;
 
-  font-size: 1.3rem;
+  font-size: 1.4rem;
 
   cursor: pointer;
 }
