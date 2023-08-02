@@ -1,7 +1,6 @@
 <template>
-  <div v-for="city in cities">
-    {{ city.name + ' / ' + city.temperature }}
-    <img :src="city.iconUrl" />
+  <div id="weather-widget">
+    <WeatherScreen v-show="currentScreen === 'weather'" :cities="cities" :loading="isLoading" @open-settings="changeScreen('settings')" />
   </div>
 </template>
 
@@ -11,8 +10,10 @@ import { getCurrentLocation } from '@/services/location';
 import { CityWeather } from '@/types/weather';
 import { addCity, setHasRequestedCurrentLocation, getHasRequestedCurrentLocation, getCities } from '@/services/storage';
 import { getWeatherByCoords, getWeatherForMultipleCities } from '@/services/weather';
+import WeatherScreen from '@/components/WeatherScreen.vue';
 
 const cities = ref<CityWeather[]>([]);
+const isLoading = ref(false);
 
 const getWeatherForSavedCities = async (): Promise<CityWeather[]> => {
   const citiesState = getCities();
@@ -28,13 +29,12 @@ const getWeatherForSavedCities = async (): Promise<CityWeather[]> => {
 onMounted(async () => {
   const hasRequestedCurrentLocation = getHasRequestedCurrentLocation();
 
-  const savedCitiesWeather = await getWeatherForSavedCities();
-  cities.value.push(...savedCitiesWeather);
-
   if (!hasRequestedCurrentLocation) {
     getCurrentLocation(
       async (params) => {
+        isLoading.value = true;
         const city = await getWeatherByCoords({ lat: params.coords.latitude.toString(), lon: params.coords.longitude.toString() });
+        isLoading.value = false;
         cities.value.push(city);
         addCity(city);
         setHasRequestedCurrentLocation({ value: true });
@@ -44,5 +44,28 @@ onMounted(async () => {
       }
     );
   }
+
+  isLoading.value = true;
+  const savedCitiesWeather = await getWeatherForSavedCities();
+  isLoading.value = false;
+  cities.value.push(...savedCitiesWeather);
 });
+
+type AppScreens = 'weather' | 'settings';
+const currentScreen = ref<AppScreens>('weather');
+
+const changeScreen = (screen: AppScreens) => {
+  currentScreen.value = screen;
+};
 </script>
+
+<style scoped lang="scss">
+#weather-widget {
+  width: 100%;
+  height: 100%;
+
+  padding: 0.7rem;
+
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+</style>

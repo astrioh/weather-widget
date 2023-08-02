@@ -5,6 +5,7 @@ export type CityWeather = {
   lat: string;
   lon: string;
   temperature: number;
+  tempFeelsLike: number;
   weatherName: string;
   weatherDescription: string;
   windSpeed: number;

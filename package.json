@@ -55,6 +55,7 @@
     "fetch": "^1.1.0",
     "vue": "^3.3.4",
     "vue-router": "^4.2.4",
+    "vuedraggable": "^4.1.0",
     "whatwg": "^2.0.0",
     "whatwg-fetch": "^3.6.17"
   }

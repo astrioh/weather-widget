@@ -1,3 +1,9 @@
-function getIconUrlByName(iconName: string): string {
-  return `https://openweathermap.org/img/wn/${iconName}@2x.png`;
+export function toSentenceCase(text: string) {
+  return text
+    .toLowerCase()
+    .split(' ')
+    .map(function (word) {
+      return word.charAt(0).toUpperCase() + word.slice(1);
+    })
+    .join(' ');
 }

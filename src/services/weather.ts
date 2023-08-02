@@ -15,6 +15,7 @@ function mapWeatherResponseToCityWeather(res: any): CityWeather {
     lat: res.coord.lat,
     lon: res.coord.lon,
     temperature: res.main.temp,
+    tempFeelsLike: res.main.feels_like,
     weatherName: res.weather[0].main,
     weatherDescription: res.weather[0].description,
     windSpeed: res.wind.speed,
@@ -30,7 +31,8 @@ export async function getWeatherByCoords(coords: { lat: string; lon: string }): 
     params: {
       lat: coords.lat,
       lon: coords.lon,
-      appid: CONFIG.WEATHER_API_KEY
+      appid: CONFIG.WEATHER_API_KEY,
+      units: 'metric'
     }
   });
 
@@ -41,7 +43,8 @@ export async function getWeatherForMultipleCities(ids: number[]): Promise<CityWe
   const res = await weatherApi('/data/2.5/group', {
     params: {
       id: ids.join(','),
-      appid: CONFIG.WEATHER_API_KEY
+      appid: CONFIG.WEATHER_API_KEY,
+      units: 'metric'
     }
   });
 
