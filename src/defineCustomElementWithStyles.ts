@@ -1,4 +1,9 @@
-import { defineCustomElement as VueDefineCustomElement, h, createApp, getCurrentInstance } from 'vue';
+import {
+  defineCustomElement as VueDefineCustomElement,
+  h,
+  createApp,
+  getCurrentInstance,
+} from 'vue';
 
 const nearestElement = (el: HTMLElement) => {
   while (el?.nodeType !== 1) el = el.parentElement;
@@ -29,12 +34,12 @@ export const defineCustomElement = (component: any) =>
         },
         unmounted() {
           this.__style?.remove();
-        }
+        },
       });
 
       const inst = getCurrentInstance();
       Object.assign(inst.appContext, app._context);
 
       return () => h(component);
-    }
+    },
   });

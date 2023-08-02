@@ -15,15 +15,15 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.vue', '.ts'],
     alias: {
-      '@': path.resolve(__dirname, '../src/')
-    }
+      '@': path.resolve(__dirname, '../src/'),
+    },
   },
 
   output: {
     path: paths.build,
     filename: 'weather.bundle.js',
     chunkFilename: 'widget.chunk.js',
-    publicPath: '/'
+    publicPath: '/',
   },
 
   plugins: [
@@ -35,15 +35,15 @@ module.exports = {
           from: paths.public,
           to: 'assets',
           globOptions: {
-            ignore: ['*.DS_Store', 'index.html']
-          }
-        }
-      ]
+            ignore: ['*.DS_Store', 'index.html'],
+          },
+        },
+      ],
     }),
     new HtmlWebpackPlugin({
-      template: './public/index.html'
+      template: './public/index.html',
     }),
-    new Dotenv()
+    new Dotenv(),
   ],
 
   module: {
@@ -54,25 +54,33 @@ module.exports = {
           {
             loader: 'ts-loader',
             options: {
-              appendTsSuffixTo: [/\.vue$/]
-            }
-          }
+              appendTsSuffixTo: [/\.vue$/],
+            },
+          },
         ],
-        exclude: /node_modules/
+        exclude: /node_modules/,
       },
-      { test: /\.vue$/, use: [{ loader: 'vue-loader', options: { customElement: true } }] },
+      {
+        test: /\.vue$/,
+        use: [{ loader: 'vue-loader', options: { customElement: true, shadowMode: true } }],
+      },
       { test: /\.js$/, exclude: /node_modules/, use: ['babel-loader'] },
 
       {
         test: /\.(scss|css)$/,
-        use: ['style-loader', { loader: 'css-loader', options: { sourceMap: true, importLoaders: 1 } }, { loader: 'postcss-loader', options: { sourceMap: true } }, { loader: 'sass-loader', options: { sourceMap: true } }]
+        use: [
+          'vue-style-loader',
+          { loader: 'css-loader', options: { sourceMap: true, importLoaders: 1 } },
+          { loader: 'postcss-loader', options: { sourceMap: true } },
+          { loader: 'sass-loader', options: { sourceMap: true } },
+        ],
       },
 
       // Images: Copy image files to build folder
       { test: /\.(?:ico|gif|png|jpg|jpeg)$/i, type: 'asset/resource' },
 
       // Fonts and SVGs: Inline files
-      { test: /\.(woff(2)?|eot|ttf|otf|svg|)$/, type: 'asset/inline' }
-    ]
-  }
+      { test: /\.(woff(2)?|eot|ttf|otf|svg|)$/, type: 'asset/inline' },
+    ],
+  },
 };

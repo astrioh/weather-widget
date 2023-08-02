@@ -5,5 +5,5 @@ module.exports = {
 
   build: path.resolve(__dirname, '../dist'),
 
-  public: path.resolve(__dirname, '../public')
+  public: path.resolve(__dirname, '../public'),
 };

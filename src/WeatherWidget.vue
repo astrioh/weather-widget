@@ -18,13 +18,13 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
-import { getCurrentLocation } from "@/services/location";
-import { CityWeather } from "@/types/weather";
-import * as storageApi from "@/services/storage";
-import { getWeatherByCoords, getWeatherForMultipleCities } from "@/services/weather";
-import WeatherScreen from "@/components/WeatherScreen.vue";
-import SettingsScreen from "./components/SettingsScreen.vue";
+import { onMounted, ref } from 'vue';
+import { getCurrentLocation } from '@/services/location';
+import { CityWeather } from '@/types/weather';
+import * as storageApi from '@/services/storage';
+import { getWeatherByCoords, getWeatherForMultipleCities } from '@/services/weather';
+import WeatherScreen from '@/components/WeatherScreen.vue';
+import SettingsScreen from './components/SettingsScreen.vue';
 
 const cities = ref<CityWeather[]>([]);
 const isLoading = ref(false);
@@ -68,8 +68,8 @@ onMounted(async () => {
   cities.value.push(...savedCitiesWeather);
 });
 
-type AppScreens = "weather" | "settings";
-const currentScreen = ref<AppScreens>("weather");
+type AppScreens = 'weather' | 'settings';
+const currentScreen = ref<AppScreens>('weather');
 
 const changeScreen = (screen: AppScreens) => {
   currentScreen.value = screen;
@@ -96,6 +96,6 @@ const removeCity = (cityId: number) => {
   box-sizing: border-box;
   overflow: auto;
 
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 </style>

@@ -3,7 +3,13 @@
     <input name="search" type="text" v-model="searchText" @input="searchDebounce" />
     <div v-if="suggestions.length || loading" class="suggestions">
       <VSpinner v-if="loading" class="spinner" />
-      <div v-else v-for="suggestion in suggestions" :key="suggestion.id" class="suggestion" @click="selectSuggestion(suggestion.id)">
+      <div
+        v-else
+        v-for="suggestion in suggestions"
+        :key="suggestion.id"
+        class="suggestion"
+        @click="selectSuggestion(suggestion.id)"
+      >
         {{ suggestion.name }}
       </div>
     </div>
@@ -23,7 +29,7 @@ const props = withDefaults(
     loading: boolean;
   }>(),
   {
-    loading: false
+    loading: false,
   }
 );
 

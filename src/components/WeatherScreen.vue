@@ -11,10 +11,10 @@
 </template>
 
 <script setup lang="ts">
-import { CityWeather } from "@/types/weather";
-import OptionIcon from "@/components/icons/OptionIcon.vue";
-import VSpinner from "@/components/elements/VSpinner.vue";
-import WeatherItem from "@/components/WeatherItem.vue";
+import { CityWeather } from '@/types/weather';
+import OptionIcon from '@/components/icons/OptionIcon.vue';
+import VSpinner from '@/components/elements/VSpinner.vue';
+import WeatherItem from '@/components/WeatherItem.vue';
 
 withDefaults(
   defineProps<{
@@ -27,7 +27,7 @@ withDefaults(
 );
 
 const emit = defineEmits<{
-  (event: "open-settings"): void;
+  (event: 'open-settings'): void;
 }>();
 </script>
 

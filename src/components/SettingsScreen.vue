@@ -28,24 +28,24 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
-import draggable from "vuedraggable";
-import HandleIcon from "@/components/icons/HandleIcon.vue";
-import DeleteIcon from "@/components/icons/DeleteIcon.vue";
-import SearchIcon from "@/components/icons/SearchIcon.vue";
-import { CityWeather, SearchedCity } from "@/types/weather";
-import { searchCityByName, getWeatherByCoords } from "@/services/weather";
-import SearchWithSuggestions from "./elements/SearchWithSuggestions.vue";
+import { computed, ref } from 'vue';
+import draggable from 'vuedraggable';
+import HandleIcon from '@/components/icons/HandleIcon.vue';
+import DeleteIcon from '@/components/icons/DeleteIcon.vue';
+import SearchIcon from '@/components/icons/SearchIcon.vue';
+import { CityWeather, SearchedCity } from '@/types/weather';
+import { searchCityByName, getWeatherByCoords } from '@/services/weather';
+import SearchWithSuggestions from './elements/SearchWithSuggestions.vue';
 
 const props = defineProps<{
   cities: CityWeather[];
 }>();
 
 const emit = defineEmits<{
-  (event: "close-settings"): void;
-  (event: "change-order", cities: CityWeather[]): void;
-  (event: "remove-city", cityId: number): void;
-  (event: "add-city", city: CityWeather): void;
+  (event: 'close-settings'): void;
+  (event: 'change-order', cities: CityWeather[]): void;
+  (event: 'remove-city', cityId: number): void;
+  (event: 'add-city', city: CityWeather): void;
 }>();
 
 const cityList = computed({
@@ -53,7 +53,7 @@ const cityList = computed({
     return props.cities;
   },
   set(value) {
-    emit("change-order", value);
+    emit('change-order', value);
   },
 });
 
@@ -81,7 +81,7 @@ const onSearchCities = async (searchQuery: string) => {
 const addCity = async (searchedCityIndex: number) => {
   const searchedCity = searchedCities.value[searchedCityIndex];
   const cityWeather = await getWeatherByCoords({ lat: searchedCity.lat, lon: searchedCity.lon });
-  emit("add-city", cityWeather);
+  emit('add-city', cityWeather);
   searchedCities.value = [];
 };
 
@@ -94,7 +94,7 @@ const selectFirstSuggestion = () => {
 };
 
 const removeCity = (cityId) => {
-  emit("remove-city", cityId);
+  emit('remove-city', cityId);
 };
 </script>
 
